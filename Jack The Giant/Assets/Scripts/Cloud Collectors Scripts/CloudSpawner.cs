@@ -23,6 +23,11 @@ public class CloudSpawner : MonoBehaviour {
 		SetMinAndMaxX ();
 		CreateClouds ();
 		player = GameObject.Find ("Player");
+
+		//deactivate collectables at the beginning, because they are active in the scene.
+		for (int i = 0; i < collectables.Length; i++) {
+			collectables [i].SetActive (false);
+		}
 	}
 
 	void Start(){
@@ -109,7 +114,7 @@ public class CloudSpawner : MonoBehaviour {
 
 				Vector3 temp = target.transform.position;
 
-				for(int i = 0; i < clouds.Length; i++){ // go through al clouds
+				for(int i = 0; i < clouds.Length; i++){ // go through all clouds
 					if(!clouds[i].activeInHierarchy){ // respawn cloud only if its not active
 						// avoid clouds exact under cloud above
 						if (controlX == 0) {
@@ -132,14 +137,29 @@ public class CloudSpawner : MonoBehaviour {
 
 						clouds [i].transform.position = temp;
 						clouds [i].SetActive (true);
+
+						//spawn collecatbles over white clouds
+						int random = Random.Range(0, collectables.Length);
+						if(clouds[i].tag != "Deadly"){
+							if(!collectables[random].activeInHierarchy){
+								Vector3 temp2 = clouds[i].transform.position;
+								temp2.y += 0.7f;
+
+								if(collectables[random].tag == "Life"){
+									// only spawn lifes when under 2 lifes
+									if (PlayerScore.lifeCount < 2) {
+										collectables [random].transform.position = temp2;
+										collectables [random].SetActive (true);
+									}
+								}else{
+									collectables [random].transform.position = temp2;
+									collectables [random].SetActive (true);
+								}
+							}
+						}
 					}
 				}
-
-
 			}
 		}
-
 	}
-
-
 }

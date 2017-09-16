@@ -5,16 +5,17 @@ using UnityEngine;
 public class PlayerScore : MonoBehaviour {
 
 	[SerializeField]
-	private AudioClip coinClip, lifeClip;
+	private AudioClip coinClip;
+	private AudioClip lifeClip;
 
 	private CameraScript cameraScript;
 
 	private Vector3 previousPosition;
 	private bool countScore;
 
-	public static int scoreCount;
-	public static int lifeCount;
-	public static int coinCount;
+	public static int scoreCount = 0;
+	public static int lifeCount = 1;
+	public static int coinCount = 0;
 
 	void Awake () {
 		cameraScript = Camera.main.GetComponent<CameraScript> ();
@@ -22,6 +23,9 @@ public class PlayerScore : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		//GameplayController.gameplayController.SetScore (scoreCount);
+		//GameplayController.gameplayController.SetCoinCount (coinCount);
+		//GameplayController.gameplayController.SetLifeCount (lifeCount);
 		previousPosition = transform.position;
 		countScore = true;
 	}
@@ -35,8 +39,10 @@ public class PlayerScore : MonoBehaviour {
 		if (countScore) {
 			if (transform.position.y < previousPosition.y) {
 				scoreCount++;
+
 			}
 			previousPosition = transform.position;
+			GameplayController.gameplayController.SetScore (scoreCount);
 		}
 	}
 
@@ -46,6 +52,8 @@ public class PlayerScore : MonoBehaviour {
 		if (target.tag == "Coin") {
 			coinCount++;
 			scoreCount += 200;
+			GameplayController.gameplayController.SetScore (scoreCount);
+			GameplayController.gameplayController.SetCoinCount (coinCount);
 			AudioSource.PlayClipAtPoint (coinClip, transform.position);
 			target.gameObject.SetActive (false);
 		}
@@ -54,6 +62,8 @@ public class PlayerScore : MonoBehaviour {
 		if (target.tag == "Life") {
 			lifeCount++;
 			scoreCount += 300;
+			GameplayController.gameplayController.SetScore (scoreCount);
+			GameplayController.gameplayController.SetLifeCount (lifeCount);
 			AudioSource.PlayClipAtPoint (lifeClip, transform.position);
 			target.gameObject.SetActive (false);
 		}
