@@ -30,7 +30,8 @@ public class MainMenuController : MonoBehaviour {
 	
 	public void StartGame(){
 		GameManager.instance.gameStartedFromMainMenu = true;
-		SceneManager.LoadScene ("Gameplay");
+		//SceneManager.LoadScene ("Gameplay");
+		SceneFader.instance.loadLevel("Gameplay");
 	}
 
 	public void HighscoreMenu(){

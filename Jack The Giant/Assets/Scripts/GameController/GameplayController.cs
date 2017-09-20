@@ -39,7 +39,8 @@ public class GameplayController : MonoBehaviour {
 
 	IEnumerator GameOverLoadMainMenu(){
 		yield return new WaitForSeconds (3f);
-		SceneManager.LoadScene ("MainMenu");
+		//SceneManager.LoadScene ("MainMenu");
+		SceneFader.instance.loadLevel("MainMenu");
 	}
 
 	public void PlayerDiedRestartGame(){
@@ -48,7 +49,8 @@ public class GameplayController : MonoBehaviour {
 
 	IEnumerator PlayerDiedRestart(){
 		yield return new WaitForSeconds (1f);
-		SceneManager.LoadScene ("Gameplay");
+		//SceneManager.LoadScene ("Gameplay");
+		SceneFader.instance.loadLevel("Gameplay");
 	}
 
 	public void SetScore(int score){
@@ -75,7 +77,8 @@ public class GameplayController : MonoBehaviour {
 
 	public void QuitGame(){
 		Time.timeScale = 1f;
-		SceneManager.LoadScene ("MainMenu");
+		//SceneManager.LoadScene ("MainMenu");
+		SceneFader.instance.loadLevel("MainMenu");
 	}
 
 	public void StartGame(){
