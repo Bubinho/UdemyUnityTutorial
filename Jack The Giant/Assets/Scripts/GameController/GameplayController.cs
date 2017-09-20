@@ -1,5 +1,6 @@
 ﻿using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 using UnityEngine;
 
 public class GameplayController : MonoBehaviour {
@@ -7,19 +8,47 @@ public class GameplayController : MonoBehaviour {
 	public static GameplayController gameplayController;
 
 	[SerializeField]
-	private Text scoreText, coinText, lifeText;
+	private Text scoreText, coinText, lifeText, gameOverScoreText, gameOverCoinText;
 
 	[SerializeField]
-	private GameObject pausePanel;
+	private GameObject pausePanel, gameOverPanel;
+
+	[SerializeField]
+	private GameObject readyButton;
 
 	void Awake (){
 		createInstance ();
+	}
+
+	void Start(){
+		Time.timeScale = 0f;
 	}
 
 	void createInstance(){
 		if (gameplayController == null) {
 			gameplayController = this;
 		}
+	}
+
+	public void GameOverShowPanel(int finalScore, int finalCoins){
+		gameOverScoreText.text = finalScore.ToString();
+		gameOverCoinText.text = finalCoins.ToString();
+		gameOverPanel.SetActive (true);
+		StartCoroutine (GameOverLoadMainMenu());
+	}
+
+	IEnumerator GameOverLoadMainMenu(){
+		yield return new WaitForSeconds (3f);
+		SceneManager.LoadScene ("MainMenu");
+	}
+
+	public void PlayerDiedRestartGame(){
+		StartCoroutine( PlayerDiedRestart());
+	}
+
+	IEnumerator PlayerDiedRestart(){
+		yield return new WaitForSeconds (1f);
+		SceneManager.LoadScene ("Gameplay");
 	}
 
 	public void SetScore(int score){
@@ -47,5 +76,10 @@ public class GameplayController : MonoBehaviour {
 	public void QuitGame(){
 		Time.timeScale = 1f;
 		SceneManager.LoadScene ("MainMenu");
+	}
+
+	public void StartGame(){
+		Time.timeScale = 1f;
+		readyButton.SetActive (false);
 	}
 }

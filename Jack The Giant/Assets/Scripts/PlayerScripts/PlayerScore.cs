@@ -5,17 +5,16 @@ using UnityEngine;
 public class PlayerScore : MonoBehaviour {
 
 	[SerializeField]
-	private AudioClip coinClip;
-	private AudioClip lifeClip;
+	private AudioClip coinClip, lifeClip;
 
 	private CameraScript cameraScript;
 
 	private Vector3 previousPosition;
 	private bool countScore;
 
-	public static int scoreCount = 0;
-	public static int lifeCount = 1;
-	public static int coinCount = 0;
+	public static int scoreCount;
+	public static int lifeCount;
+	public static int coinCount;
 
 	void Awake () {
 		cameraScript = Camera.main.GetComponent<CameraScript> ();
@@ -69,23 +68,15 @@ public class PlayerScore : MonoBehaviour {
 		}
 
 		//bounds are the vertical bounds.
-		// if a player is too high or too low he dies
-		if (target.tag == "Bounds") {
-			countScore = false;
+		// if a player is too high or too low or touches dark cloud he dies
+		if (target.tag == "Bounds" || target.tag == "Deadly") {
 			cameraScript.moveCamera = false;
+			countScore = false;
+
 			transform.position = new Vector3 (500, 500, 0); // move player outside the camera
 			lifeCount--;
+			GameManager.instance.CheckGameStatus (scoreCount, coinCount, lifeCount);
 		
 		}
-
-		// player touched a dark cloud
-		if (target.tag == "Deadly") {
-			countScore = false;
-			cameraScript.moveCamera = false;
-			transform.position = new Vector3 (500, 500, 0); // move player outside the camera
-			lifeCount--;
-
-		}
-			
 	}
 }
