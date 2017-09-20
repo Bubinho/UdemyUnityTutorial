@@ -46,7 +46,6 @@ public class PlayerScore : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D target){
-
 		// collect a coin
 		if (target.tag == "Coin") {
 			coinCount++;
@@ -70,6 +69,7 @@ public class PlayerScore : MonoBehaviour {
 		//bounds are the vertical bounds.
 		// if a player is too high or too low or touches dark cloud he dies
 		if (target.tag == "Bounds" || target.tag == "Deadly") {
+			
 			cameraScript.moveCamera = false;
 			countScore = false;
 
