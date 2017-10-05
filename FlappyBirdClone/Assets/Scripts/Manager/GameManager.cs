@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
 	void Awake () {
 		CreateGameManager ();
 		GameStartedForFirstTime ();
+		//PlayerPrefs.DeleteAll ();
+
 	}
 
 	void CreateGameManager(){
