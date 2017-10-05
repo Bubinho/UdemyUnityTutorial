@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class MenuManager : MonoBehaviour {
@@ -65,6 +66,10 @@ public class MenuManager : MonoBehaviour {
 			GameManager.instance.SetSelectedBird (0); 
 			birds [GameManager.instance.GetSelectedBird ()].SetActive (true); 
 		}
+	}
+
+	public void StartGame(){
+		SceneManager.LoadScene ("Main");
 	}
 	
 

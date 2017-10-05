@@ -105,6 +105,7 @@ public class Bird : MonoBehaviour {
 				isAlive = false;
 				anim.SetTrigger ("Die");
 				audioSource.PlayOneShot (dieClip);
+				GameplayManager.instance.PlayerDiedShowScore (score);
 			}
 		}
 	}
@@ -112,6 +113,7 @@ public class Bird : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D target){
 		if (target.tag == "PipeHolder") {
 			score++;
+			GameplayManager.instance.SetScore (score);
 			audioSource.PlayOneShot (scoreClip);
 		}
 	}
